@@ -133,7 +133,7 @@ void buildenemy(int rownum)
             break;
         
         case 1:
-            std::cout << "|  # ";
+            std::cout << "|    ";
             break;
         
         case 2:
