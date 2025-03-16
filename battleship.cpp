@@ -3,6 +3,7 @@
 #include <cctype>
 #include <random>
 #include <cstdlib>
+#include <ctype.h>
 
 const int gridwidth = 10, gridheight = 10;
 const char characters[gridwidth] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
@@ -175,7 +176,7 @@ void render()
     }
 }
 
-void handleinput0()
+void handleinput()
 {
     char input = getchar();
     input = tolower(input);
@@ -354,7 +355,7 @@ void handleinput0()
     }
 }
 
-void applyinput0()
+void applyinput()
 {
     bool is4 = 1;
     for (int i = 0; i < gridheight; i++)
@@ -513,12 +514,100 @@ void randomenemy() {
             enemygrid[enemycursor[1] - 1][enemycursor[0] + i - 1] = 1;
             break;
         default:
-	    goto redo;
+	goto redo;
             break;
         }
     }
     }
     gamestate = 2;
+}
+
+void usershoot() {
+	start:
+	std::cout << '\n' << "Type the square you want to shoot: ";
+	std::string input;
+	int xcoord, ycoord;
+	std::cin >> input;
+
+	if (input.length() == 3) {
+		if ((input[1] == '1') && (input[2] == '0')) {
+			ycoord = 9;
+		} else {
+			goto start;
+		}
+	} else if (input.length() == 2) {}
+	else {
+		goto start;	
+	}
+
+	if ((input[1] == '1') || (input[1] == '2') || (input[1] == '3') || (input[1] == '4') || (input[1] == '5') || (input[1] == '6') || (input[1] == '7') || (input[1] == '8') || (input[1] == '9')) {}
+	else {
+		goto start;
+	}
+
+	for (int i = 0; i < 10; i++) {
+		if ((characters[i] == input[0]) || ((char)std::tolower(characters[i]) == input[0])) {
+			xcoord = i;
+			goto after;
+		}
+	}
+	
+	goto start;
+
+	after:
+
+	if (!(ycoord == 9)) {
+	ycoord = (input[1] - '0') - 1;
+	}
+
+	if (enemygrid[ycoord][xcoord] == 0) {
+		enemygrid[ycoord][xcoord] = 3;
+	} else if (enemygrid[ycoord][xcoord] == 1) {
+		enemygrid[ycoord][xcoord] = 2;	
+	} else {
+		goto start;
+	}
+}
+
+void enemyshoot() {
+	std::random_device dev;
+    	std::mt19937 rng(dev());
+    	std::uniform_int_distribution<std::mt19937::result_type> distx(0, 9);
+    	std::uniform_int_distribution<std::mt19937::result_type> disty(0, 9);
+
+	redo:
+
+	int xcoord = distx(rng), ycoord = disty(rng);
+
+	if (usergrid[xcoord][ycoord] == 0) {
+		usergrid[xcoord][ycoord] = 3;
+	} else if (usergrid[xcoord][ycoord] == 1) {
+		usergrid[xcoord][ycoord] = 2;
+	} else {
+		goto redo;
+	}
+}
+
+void checkwinner() {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (usergrid[i][j] == 1) {
+				goto end1;
+			}
+		}
+	}
+	gamestate = 4;
+	end1:
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (enemygrid[i][j] == 1) {
+				goto end2;
+			}
+		}
+	}
+	gamestate = 3;
+	end2:
+	(void)0;
 }
 
 int main()
@@ -529,22 +618,36 @@ int main()
         if (gamestate == 0)
         {
             render();
-            handleinput0();
+            handleinput();
             if (gamestate == 1) {
                 goto state1;
             }
-            applyinput0();
-	    }
+            applyinput();
+	}
         else if (gamestate == 1)
         {
             state1:
             render();
             randomenemy();
         }
-        else
+        else if (gamestate == 2)
         {
             render();
-            getchar();
+	    usershoot();
+	    enemyshoot();
+	    checkwinner();
         }
+	else if (gamestate == 3)
+	{
+		std::cout << '\n' << "YOU WIN!!!" << '\n' << '\n';
+		break;
+	} else 
+	{
+		std::cout << '\n' << "YOU LOSE!!!" << '\n' << '\n';
+		break;
+	}
+	for (int i = 0; i < 50; i++) {
+	n();
+	}
     }
 }
