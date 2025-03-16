@@ -397,9 +397,9 @@ void applyinput0()
         }
     }
     } else {
-    for (int j = 0; j < gridwidth; j++)
+    for (int i = 0; i < gridwidth; i++)
     {
-        for (int i = 0; i < gridheight; i++)
+        for (int j = 0; j < gridheight; j++)
         {
             if (!((usergrid[i][j] == 1) || (usergrid[i + 1][j] == 1) || (usergrid[i + 2][j] == 1) || (usergrid[i + 3][j] == 1))) {
                     usergrid[i][j] = 4;
