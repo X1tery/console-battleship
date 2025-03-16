@@ -401,7 +401,7 @@ void applyinput0()
     {
         for (int i = 0; i < gridheight; i++)
         {
-            if (!((usergrid[i][j] == 1) && (usergrid[i + 1][j] == 1) && (usergrid[i + 2][j] == 1) && (usergrid[i + 3][j] == 1))) {
+            if (!((usergrid[i][j] == 1) || (usergrid[i + 1][j] == 1) || (usergrid[i + 2][j] == 1) || (usergrid[i + 3][j] == 1))) {
                     usergrid[i][j] = 4;
                     usergrid[i + 1][j] = 4;
                     usergrid[i + 2][j] = 4;
