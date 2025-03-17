@@ -535,14 +535,16 @@ void usershoot() {
 		} else {
 			goto start;
 		}
-	} else if (input.length() == 2) {}
-	else {
-		goto start;	
-	}
-
-	if ((input[1] == '1') || (input[1] == '2') || (input[1] == '3') || (input[1] == '4') || (input[1] == '5') || (input[1] == '6') || (input[1] == '7') || (input[1] == '8') || (input[1] == '9')) {}
+	} else if (input.length() == 2) {
+if ((input[1] == '1') || (input[1] == '2') || (input[1] == '3') || (input[1] == '4') || (input[1] == '5') || (input[1] == '6') || (input[1] == '7') || (input[1] == '8') || (input[1] == '9')) {
+ycoord = input[1];
+}
 	else {
 		goto start;
+	}
+}
+	else {
+		goto start;	
 	}
 
 	for (int i = 0; i < 10; i++) {
